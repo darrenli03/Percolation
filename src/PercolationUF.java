@@ -65,6 +65,7 @@ public class PercolationUF implements IPercolate {
 
         if(row == 0) myFinder.union(VTOP, convertCoordinates(row, col));
         if(row == myGrid.length - 1) myFinder.union(convertCoordinates(row, col), VBOTTOM);
+        myOpenCount++;
 
     }
 
