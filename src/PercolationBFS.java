@@ -18,7 +18,6 @@ public class PercolationBFS extends PercolationDefault{
         }
         //confirmed the input cell is open (not full or closed), now mark all connected cells and itself as full
         Queue<int[]> qp = new LinkedList<>();
-        int size = 0;
         int[] rowDelta = {-1, 1, 0, 0};
         int[] colDelta = {0, 0, -1, 1};
 
@@ -32,7 +31,6 @@ public class PercolationBFS extends PercolationDefault{
                 if (inBounds(row, col) && !isFull(row, col) && isOpen(row, col)) {
                     qp.add(new int[]{row, col});
                     myGrid[row][col] = FULL;
-                    size++;
                 }
             }
         }
