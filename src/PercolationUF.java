@@ -8,8 +8,7 @@ public class PercolationUF implements IPercolate {
     private final int VBOTTOM;
     private int myOpenCount;
 
-    public PercolationUF(IUnionFind finder, int size)
-    {
+    public PercolationUF(IUnionFind finder, int size) {
         myGrid = new boolean[size][size];
         finder.initialize(size * size + 2);
         myFinder = finder;
@@ -20,59 +19,59 @@ public class PercolationUF implements IPercolate {
 
     @Override
     public boolean isOpen(int row, int col) {
-		
-		if (!inBounds(row,col)) {
-			throw new IndexOutOfBoundsException(
-					String.format("(%d,%d) not in bounds", row,col));
-		}
-		return myGrid[row][col];//check
-	}
+
+        if (!inBounds(row, col)) {
+            throw new IndexOutOfBoundsException(
+                    String.format("(%d,%d) not in bounds", row, col));
+        }
+        return myGrid[row][col];//check
+    }
 
     @Override
     public boolean isFull(int row, int col) {
-		
-		if (!inBounds(row,col)) {
-			throw new IndexOutOfBoundsException(
-					String.format("(%d,%d) not in bounds", row,col));
-		}
-		
-		return myFinder.connected(convertCoordinates(row, col), VTOP);
-	}
+
+        if (!inBounds(row, col)) {
+            throw new IndexOutOfBoundsException(
+                    String.format("(%d,%d) not in bounds", row, col));
+        }
+
+        return myFinder.connected(convertCoordinates(row, col), VTOP);
+    }
 
     @Override
-    public boolean percolates()
-    {
+    public boolean percolates() {
         return myFinder.connected(VTOP, VBOTTOM);
     }
 
     @Override
-    public int numberOfOpenSites(){
+    public int numberOfOpenSites() {
         return myOpenCount;
     }
 
     @Override
-    public void open(int row, int col){
-        if (!inBounds(row,col)) {
+    public void open(int row, int col) {
+        if (!inBounds(row, col)) {
             throw new IndexOutOfBoundsException(
-                    String.format("(%d,%d) not in bounds", row,col));
+                    String.format("(%d,%d) not in bounds", row, col));
         }
-        if(isOpen(row,col)) return;
+        if (isOpen(row, col)) return;
 
     }
 
     /**
-     *checks if the row and column values are valid, returns false if they are not
+     * checks if the row and column values are valid, returns false if they are not
+     *
      * @param row row coordinate
      * @param col column coordinate
      */
-    public boolean inBounds(int row, int col)
-    {
+    public boolean inBounds(int row, int col) {
         if (row < 0 || row >= myGrid.length) return false;
-		if (col < 0 || col >= myGrid[0].length) return false;
-		return true;
-	}
-    public int convertCoordinates(int row, int col){
-        return row*myGrid.length + col;
+        if (col < 0 || col >= myGrid[0].length) return false;
+        return true;
+    }
+
+    public int convertCoordinates(int row, int col) {
+        return row * myGrid.length + col;
     }
 
 
