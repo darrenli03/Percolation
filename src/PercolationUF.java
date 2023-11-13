@@ -56,6 +56,16 @@ public class PercolationUF implements IPercolate {
         }
         if (isOpen(row, col)) return;
 
+        myGrid[row][col] = true;
+
+        if(inBounds(row, col+1) && isOpen(row, col+1)) myFinder.union(convertCoordinates(row, col), convertCoordinates(row, col+1));
+        if(inBounds(row, col-1) && isOpen(row, col-1)) myFinder.union(convertCoordinates(row, col), convertCoordinates(row, col-1));
+        if(inBounds(row-1, col) && isOpen(row-1, col)) myFinder.union(convertCoordinates(row, col), convertCoordinates(row-1, col));
+        if(inBounds(row+1, col) && isOpen(row+1, col)) myFinder.union(convertCoordinates(row, col), convertCoordinates(row+1, col));
+
+        if(row == 0) myFinder.union(VTOP, convertCoordinates(row, col));
+        if(row == myGrid.length - 1) myFinder.union(convertCoordinates(row, col), VBOTTOM);
+
     }
 
     /**
