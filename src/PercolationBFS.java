@@ -13,11 +13,10 @@ public class PercolationBFS extends PercolationDefault{
 
     @Override
     protected void search(int row, int col) {
-        if (!inBounds(row, col)) return;
-        if (isFull(row, col) || !isOpen(row, col)) {
+        if (!inBounds(row, col) || isFull(row, col) || !isOpen(row, col)) {
             return;
         }
-        //confirmed the input cell is open  (not full or closed), now mark all connected cells and itself as full
+        //confirmed the input cell is open (not full or closed), now mark all connected cells and itself as full
         Queue<int[]> qp = new LinkedList<>();
         int size = 0;
         int[] rowDelta = {-1, 1, 0, 0};
