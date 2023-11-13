@@ -7,7 +7,7 @@ public class PercolationDFS extends PercolationDefault {
     }
 
     @Override
-    public void search(int row, int col)
+    protected void search(int row, int col)
     {
         int[] rowDelta = {-1,1,0,0};
         int[] colDelta = {0,0,-1,1};
