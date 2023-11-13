@@ -36,13 +36,13 @@ public class PercolationUF implements IPercolate {
 					String.format("(%d,%d) not in bounds", row,col));
 		}
 		
-		return !myGrid[row][col];
+		return myFinder.connected(convertCoordinates(row, col), VTOP);
 	}
 
     @Override
     public boolean percolates()
     {
-        return connected(VTOP, VBOTTOM);
+        return myFinder.connected(VTOP, VBOTTOM);
     }
 
     @Override
@@ -52,41 +52,30 @@ public class PercolationUF implements IPercolate {
 
     @Override
     public void open(int row, int col){
+        if (!inBounds(row,col)) {
+            throw new IndexOutOfBoundsException(
+                    String.format("(%d,%d) not in bounds", row,col));
+        }
+        if(isOpen(row,col)) return;
 
     }
 
+    /**
+     *checks if the row and column values are valid, returns false if they are not
+     * @param row row coordinate
+     * @param col column coordinate
+     */
     public boolean inBounds(int row, int col)
     {
         if (row < 0 || row >= myGrid.length) return false;
 		if (col < 0 || col >= myGrid[0].length) return false;
 		return true;
 	}
-
-    public boolean connected(int row, int col){
-        if (!inBounds(row, col) || isFull(row, col) || !isOpen(row, col)) {
-            return false;
-        }
-        //confirmed the input cell is open (not full or closed), now mark all connected cells and itself as full
-        Queue<int[]> qp = new LinkedList<>();
-        int[] rowDelta = {-1, 1, 0, 0};
-        int[] colDelta = {0, 0, -1, 1};
-
-        qp.add(new int[]{row, col});
-        while (qp.size() != 0) {
-            int[] p = qp.remove();
-            for (int k = 0; k < rowDelta.length; k++) {
-                row = p[0] + rowDelta[k];
-                col = p[1] + colDelta[k];
-                if (inBounds(row, col) && !isFull(row, col) && isOpen(row, col)) {
-                    if(row == Math.sqrt(VTOP)) return true;
-                    qp.add(new int[]{row, col});
-                }
-
-            }
-        }
-
-        return false;
+    public int convertCoordinates(int row, int col){
+        return row*myGrid.length + col;
     }
+
+
 }
 
 
