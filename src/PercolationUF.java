@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class PercolationUF implements IPercolate {
     private IUnionFind myFinder;
     private boolean[][] myGrid;
@@ -22,7 +25,7 @@ public class PercolationUF implements IPercolate {
 			throw new IndexOutOfBoundsException(
 					String.format("(%d,%d) not in bounds", row,col));
 		}
-		return myGrid[row][col] != true;//check
+		return myGrid[row][col];//check
 	}
 
     @Override
@@ -33,7 +36,7 @@ public class PercolationUF implements IPercolate {
 					String.format("(%d,%d) not in bounds", row,col));
 		}
 		
-		return myGrid[row][col] == true;
+		return !myGrid[row][col];
 	}
 
     @Override
@@ -58,8 +61,33 @@ public class PercolationUF implements IPercolate {
 		if (col < 0 || col >= myGrid[0].length) return false;
 		return true;
 	}
-  
+
+    public boolean connected(int row, int col){
+        if (!inBounds(row, col) || isFull(row, col) || !isOpen(row, col)) {
+            return false;
+        }
+        //confirmed the input cell is open (not full or closed), now mark all connected cells and itself as full
+        Queue<int[]> qp = new LinkedList<>();
+        int[] rowDelta = {-1, 1, 0, 0};
+        int[] colDelta = {0, 0, -1, 1};
+
+        qp.add(new int[]{row, col});
+        while (qp.size() != 0) {
+            int[] p = qp.remove();
+            for (int k = 0; k < rowDelta.length; k++) {
+                row = p[0] + rowDelta[k];
+                col = p[1] + colDelta[k];
+                if (inBounds(row, col) && !isFull(row, col) && isOpen(row, col)) {
+                    if(row == Math.sqrt(VTOP)) return true;
+                    qp.add(new int[]{row, col});
+                }
+
+            }
+        }
+
+        return false;
     }
+}
 
 
 
